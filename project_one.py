@@ -36,15 +36,19 @@ while money > 0:
             if drink_choice == 1:
                 print("Here's your Diet Pepsi!")
                 money -= 3
+                print(f"You now have ${money}.")
             elif drink_choice == 2:
                 print("Here's your Pepsi!")
                 money -= 3
+                print(f"You now have ${money}.")
             elif drink_choice == 3:
                 print("Here's your water!")
                 money -= 3
+                print(f"You now have ${money}.")
             elif drink_choice == 4:
                 print("Here is your Gatorade!")
                 money -= 3
+                print(f"You now have ${money}.")
             elif "exit":
                 break
         print("Please make another selection.\n")
@@ -61,15 +65,19 @@ while money > 0:
             if snack_choice == 1:
                 print("Here are you Doritos!")
                 money -= 2
+                print(f"You now have ${money}.")
             elif snack_choice == 2:
                 print("Here are your apple slices!")
                 money -= 2
+                print(f"You now have ${money}.")
             elif snack_choice == 3:
                 print("Here's your granola bar!")
                 money -= 2
+                print(f"You now have ${money}.")
             elif snack_choice == 4:
                 print("Here is your Trail Mix!")
                 money -= 2
+                print(f"You now have ${money}.")
             elif "exit":
                 break
         print("Please choose one of the options.\n")
@@ -86,15 +94,19 @@ while money > 0:
             if candy_choice == 1:
                 print("Here are your M&Ms!")
                 money -= 1
+                print(f"You now have ${money}.")
             elif candy_choice == 2:
                 print("Here's your Hershey's!")
                 money -= 1
+                print(f"You now have ${money}.")
             elif candy_choice == 3:
                 print("Here's your Snickers!")
                 money -= 1
+                print(f"You now have ${money}.")
             elif candy_choice == 4:
                 print("Here's your Nerds!")
                 money -= 1
+                print(f"You now have ${money}.")
             elif "exit":
                 break
         print("Please choose one of the options.\n")
