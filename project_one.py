@@ -8,7 +8,7 @@ Project #1 - vending machine
 """
 from random import randint
 
-money: int = randint(0, 10)
+money: int = randint(0, 50)
 
 name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
 
