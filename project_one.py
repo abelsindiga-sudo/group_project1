@@ -12,9 +12,8 @@ money: int = randint(1, 20)
 
 name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
 
-print(f"Hi {name}, you have ${money} to spend.")
-
 while money > 0:
+    print(f"Hi {name}, you have ${money} to spend.")
     print("Your options from the vending machine come from three categories!")
     print("Enter '1' for Drinks,")
     print("Enter '2' for Snacks,")
