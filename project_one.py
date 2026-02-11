@@ -31,7 +31,10 @@ while money > 0:
         print("2) Pepsi")
         print("3) Water")
         print("4) Gatorade")
+        print("You may also type \"exit\" when you are ready to leave.")
         drink_choice = input()
+        if drink_choice.lower().startswith("exit"):
+            break
         if money >= 3 and drink_choice == 1:
             print("Here's your Diet Pepsi!")
             money -= 3
@@ -55,7 +58,10 @@ while money > 0:
         print("2) Apples")
         print("3) Granola Bar")
         print("4) Trail Mix")
+        print("You may also type \"exit\" when you are ready to leave.")
         snack_choice = input()
+         if snack_choice.lower().startswith("exit"):
+            break
         if money >= 2 and snack_choice == 1:
             print("Here are you Doritos!")
             money -= 2
@@ -79,7 +85,10 @@ while money > 0:
         print("2) Hershey's")
         print("3) Snickers")
         print("4) Nerds")
+        print("You may also type \"exit\" when you are ready to leave.")
         candy_choice = input()
+        if candy_choice.lower().startswith("exit"):
+            break
         if money >= 1 and candy_choice == 1:
             print("Here are you M&Ms!")
             money -= 1
