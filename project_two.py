@@ -43,25 +43,15 @@ def drink_options(dollar: int) -> int:
         dollar: int
             the amount of money left over after purchasing
     """
-    drink_choice: int = int(input())
+    drink: int = int(input())
+    drinks: list[str] = ["Diet Pepsi", "Pepsi", "water", "Gatorade"]
 
-    if dollar >= 3:
-        if drink_choice == 1:
-            print("Here's your Diet Pepsi!")
+    try:
+        if 0 < drink <= 4:
+            print(f"Here's your {drinks[drink - 1]}!")
             dollar -= 3
-        elif drink_choice == 2:
-            print("Here's your Pepsi!")
-            dollar -= 3
-        elif drink_choice == 3:
-            print("Here's your water!")
-            dollar -= 3
-        elif drink_choice == 4:
-            print("Here is your Gatorade!")
-            dollar -= 3
-        else:
-            print("Please choose an option.")
-    else:
-        print("Not enough money for a drink.")
+    except ValueError:
+        print("Please choose an option.")
     return dollar
 
 def snack_choices() -> None:
@@ -88,25 +78,15 @@ def snack_options(dollar: int) -> int:
         dollar: int
             the amount of money left over after purchasing
     """
-    snack_choice: int = int(input())
+    snack: int = int(input())
+    snacks: list[str] = ["Doritos", "Apples", "Granola Bar", "Trail Mix"]
 
-    if dollar >= 2:
-        if snack_choice == 1:
-            print("Here's your Diet Pepsi!")
+    try:
+        if 0 < snack <= 4:
+            print(f"Here's your {snacks[snack - 1]}!")
             dollar -= 2
-        elif snack_choice == 2:
-            print("Here's your Pepsi!")
-            dollar -= 2
-        elif snack_choice == 3:
-            print("Here's your water!")
-            dollar -= 2
-        elif snack_choice == 4:
-            print("Here is your Gatorade!")
-            dollar -= 2
-        else:
-            print("Please choose an option.")
-    else:
-        print("Not enough money for a drink.")
+    except ValueError:
+        print("Please choose an option.")
     return dollar
 
 def candy_choices() -> None:
@@ -133,40 +113,38 @@ def candy_options(dollar: int) -> int:
         dollar: int
             the amount of money left over after purchasing
     """
-    candy_choice: int = int(input())
+    candy: int = int(input())
+    candies: list[str] = ["M&Ms", "Hershey's", "Snickers", "Nerds"]
 
-    if dollar >= 1:
-        if candy_choice == 1:
-            print("Here are your M&Ms!")
+    try:
+        if 0 < candy <= 4:
+            print(f"Here's your {candies[candy - 1]}!")
             dollar -= 1
-        elif candy_choice == 2:
-            print("Here's your Hershey's!")
-            dollar -= 1
-        elif candy_choice == 3:
-            print("Here's your Snickers!")
-            dollar -= 1
-        elif candy_choice == 4:
-            print("Here's your Nerds!")
-            dollar -= 1
-        else:
-            print("Please choose an option.")
-    else:
-        print("Not enough money for candy.")
+    except ValueError:
+        print("Please choose an option.")
     return dollar
 
-if __name__ == "__main__":
+def main():
+    """
+        Using a `main()` function hides any of your variables from the "global
+        scope", allowing you to use the same names in multiple functions without
+        Pylint and Pylance getting angry!
+    """
     money: int = randint(1, 10)
 
     name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
 
     print(f"\nHi {name}, you have ${money} to spend.")
 
-    while money > 0:
+    try:
+        if money <= 0:
+            raise ValueError("You're money has run out!")
+
         show_vending_options()
         response: str = input()
 
         if response.lower().startswith("exit"):
-            break
+            pass
 
         if response == "1":
             drink_choices()
@@ -183,4 +161,10 @@ if __name__ == "__main__":
             print(f"You now have ${candy_options(money)} remaining.")
             print("Please choose one of the options.\n")
 
+    except ValueError:
+        print("You're done.")
+
     print("Thank you for visiting the vending machine!")
+
+if __name__ == "__main__":
+    main()
