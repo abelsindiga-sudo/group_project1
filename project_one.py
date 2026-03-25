@@ -3,115 +3,74 @@ Emma, Dot, Abel
 CSCI 1101-11
 Prof R
 
-Project #1 - vending machine
+Project #2 - vending machine v02
+Functions, Try/Except, Dictionaries
 """
-from random import randint  # random integer for the customer's money amount
 
-money: int = randint(1, 10)
+from random import randint #random integer for the customer's money amount
+from Venting_Def_plusultra import show_vending_options, handle_selection
 
-name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
+# Dictionaries for items
+drinks = {
+    1: ("Diet Pepsi", 3),
+    2: ("Pepsi", 3),
+    3: ("Water", 3),
+    4: ("Gatorade", 3)
+}
 
-print(f"\nHi {name}, you have ${money} to spend.")
+snacks = {
+    1: ("Doritos", 2),
+    2: ("Apples", 2),
+    3: ("Granola Bar", 2),
+    4: ("Trail Mix", 2)
+}
 
-while money > 0:
-    print("Your options from the vending machine come from three categories!")
-    print("Enter '1' for Drinks,")
-    print("Enter '2' for Snacks,")
-    print("Enter '3' for Candy.")
-    print("You may also type \"exit\" when you are ready to leave.")
-    response: str = input()
+candies = {
+    1: ("M&Ms", 1),
+    2: ("Hershey's", 1),
+    3: ("Snickers", 1),
+    4: ("Nerds", 1)
+}
 
-    if response.lower().startswith("exit"):
-        break
 
-    if response == "1":
-        print("Here are your Drinks options:")
-        print("All drinks are $3")
-        print("1) Diet Pepsi")
-        print("2) Pepsi")
-        print("3) Water")
-        print("4) Gatorade")
-        drink_choice: int = int(input())
+def main():
+    """Main function to run vending machine."""
+    money: int = randint(1, 10)
+    cart: list = []
 
-        if money >= 3:
-            if drink_choice == 1:
-                print("Here's your Diet Pepsi!")
-                money -= 3
-            elif drink_choice == 2:
-                print("Here's your Pepsi!")
-                money -= 3
-            elif drink_choice == 3:
-                print("Here's your water!")
-                money -= 3
-            elif drink_choice == 4:
-                print("Here is your Gatorade!")
-                money -= 3
-            else:
-                print("Please choose an option.")
-            print(f"You now have ${money}.")
+    name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
+    print(f"\nHi {name}, you have ${money} to spend.")
+
+    while money > 0:
+        show_vending_options()
+        response: str = input("Select an option: ")
+
+        if response.lower() == "exit":
+            break
+
+        elif response == "1":
+            money = handle_selection(drinks, money, "Drinks", cart)
+
+        elif response == "2":
+            money = handle_selection(snacks, money, "Snacks", cart)
+
+        elif response == "3":
+            money = handle_selection(candies, money, "Candy", cart)
+
         else:
-            print("Not enough money for a drink.")
+            print("Invalid option.")
 
-        print("Please make another selection.\n")
+        print(f"You now have ${money} remaining.")
 
-    if response == "2":
-        print("Here are your Snacks options:")
-        print("All snacks are $2")
-        print("1) Doritos")
-        print("2) Apples")
-        print("3) Granola Bar")
-        print("4) Trail Mix")
-        snack_choice: int = int(input())
+    # Receipt feature to show purchased items 
+    print("\nItems you purchased:")
+    if cart:
+        for item in cart:
+            print(f"- {item}")
+    else:
+        print("No items purchased.")
 
-        if money >= 2:
-            if snack_choice == 1:
-                print("Here are your Doritos!")
-                money -= 2
-            elif snack_choice == 2:
-                print("Here are your apple slices!")
-                money -= 2
-            elif snack_choice == 3:
-                print("Here's your granola bar!")
-                money -= 2
-            elif snack_choice == 4:
-                print("Here is your Trail Mix!")
-                money -= 2
-            else:
-                print("Please choose an option.")
-            print(f"You now have ${money}.")
-        else:
-            print("Not enough money for a snack.")
+    print("Thank you for visiting the vending machine!")
 
-        print("Please choose one of the options.\n")
-
-    if response == "3":
-        print("Here are your Candy options:")
-        print("All candies are $1")
-        print("1) M&Ms")
-        print("2) Hershey's")
-        print("3) Snickers")
-        print("4) Nerds")
-        candy_choice: int = int(input())
-
-        if money >= 1:
-            if candy_choice == 1:
-                print("Here are your M&Ms!")
-                money -= 1
-            elif candy_choice == 2:
-                print("Here's your Hershey's!")
-                money -= 1
-            elif candy_choice == 3:
-                print("Here's your Snickers!")
-                money -= 1
-            elif candy_choice == 4:
-                print("Here's your Nerds!")
-                money -= 1
-            else:
-                print("Please choose an option.")
-            print(f"You now have ${money}.")
-        else:
-            print("Not enough money for candy.")
-
-        print("Please choose one of the options.\n")
-
-print("Thank you for visiting the vending machine!")
+if __name__ == "__main__":
+    main()
