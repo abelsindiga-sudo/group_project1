@@ -36,55 +36,64 @@ candies = {
     4: ("Nerds", 1)
 }
 
-def make_machine(t) -> None:
+class VendingMachine:
     """
-        This is the vending machine drawn in the turtle window
-
-        MAKE THESE CLASSES AND THEN CAN CHANGE COLORS AND POSITIONS EASIER
+        class docstring
     """
-    t.penup()
-    t.goto(200, 300)
-    t.pendown()
-    t.goto(-200, 300)
-    t.goto(-200, -300)
-    t.goto(200, -300)
-    t.goto(200, 300)
-    t.penup()
+    def __init__(self) -> None:
+        pass
+    def make_machine(self, t: Turtle) -> None:
+        """
+            This is the vending machine drawn in the turtle window
+        """
+        # box for outer vending machine
+        t.penup()
+        t.goto(200, 300)
+        t.pendown()
+        t.goto(-200, 300)
+        t.goto(-200, -300)
+        t.goto(200, -300)
+        t.goto(200, 300)
+        t.penup()
 
-    t.goto(150, 220)
-    t.pendown()
-    t.goto(-150, 220)
-    t.penup()
+        # line on top (title)
+        t.goto(150, 220)
+        t.pendown()
+        t.goto(-150, 220)
+        t.penup()
 
-    t.goto(-150, 110)
-    t.pendown()
-    t.goto(-150, 10)
-    t.goto(-30, 10)
-    t.goto(-30, 110)
-    t.goto(-150, 110)
-    t.penup()
-    t.goto(-120, 60)
-    t.write("Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+        # snacks box <-- make these classes
+        t.goto(-150, 110)
+        t.pendown()
+        t.goto(-150, 10)
+        t.goto(-30, 10)
+        t.goto(-30, 110)
+        t.goto(-150, 110)
+        t.penup()
+        t.goto(-120, 60)
+        t.write("Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
-    t.goto(150, 110)
-    t.pendown()
-    t.goto(150, 10)
-    t.goto(30, 10)
-    t.goto(30, 110)
-    t.goto(150, 110)
-    t.penup()
-    t.goto(60, 60)
-    t.write("Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+        # candies box <-- make these classes
+        t.goto(150, 110)
+        t.pendown()
+        t.goto(150, 10)
+        t.goto(30, 10)
+        t.goto(30, 110)
+        t.goto(150, 110)
+        t.penup()
+        t.goto(60, 60)
+        t.write("Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
-    t.goto(-150, -20)
-    t.pendown()
-    t.goto(-150, -120)
-    t.goto(150, -120)
-    t.goto(150, -20)
-    t.goto(-150, -20)
-    t.penup()
-    t.goto(-75, -70)
-    t.write("Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
+        # drinks box <-- make these classes
+        t.goto(-150, -20)
+        t.pendown()
+        t.goto(-150, -120)
+        t.goto(150, -120)
+        t.goto(150, -20)
+        t.goto(-150, -20)
+        t.penup()
+        t.goto(-75, -70)
+        t.write("Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
 
 
 def main():
@@ -96,8 +105,6 @@ def main():
     canvas.title("Vending Machine")
     turt: Turtle = Turtle()
     turt.shape("turtle")
-
-    make_machine(turt)
 
     money: int = randint(1, 10)
     cart: list[str] = []
@@ -153,6 +160,7 @@ def main():
 
 
 if __name__ == "__main__":
+    vending_machine: VendingMachine = VendingMachine()
     main()
 
     done()
