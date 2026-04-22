@@ -36,48 +36,6 @@ candies = {
     4: ("Nerds", 1)
 }
 
-def main():
-    """
-    Main function to run vending machine.
-    """
-    money: int = randint(1, 10)
-    cart: list[str] = []
-
-    name: str = input("Welcome to the Vending Machine!\nPlease state your name: ")
-    print(f"\nHi {name}, you have ${money} to spend.")
-
-    while money > 0:
-        show_vending_options()
-        response: str = input("Select an option: ")
-
-        if response.lower() == "exit":
-            break
-
-        elif response == "1":
-            money = handle_selection(drinks, money, "Drinks", cart)
-
-        elif response == "2":
-            money = handle_selection(snacks, money, "Snacks", cart)
-
-        elif response == "3":
-            money = handle_selection(candies, money, "Candy", cart)
-
-        else:
-            print("Invalid option.")
-
-        print(f"You now have ${money} remaining.")
-
-    # Receipt feature to show purchased items
-    print("\nItems you purchased:")
-    if cart:
-        for item in cart:
-            print(f"- {item}")
-    else:
-        print("No items purchased.")
-
-    print("Thank you for visiting the vending machine!")
-
-
 def make_machine(t) -> None:
     """
         This is the vending machine drawn in the turtle window
@@ -106,7 +64,7 @@ def make_machine(t) -> None:
     t.goto(-150, 110)
     t.penup()
     t.goto(-120, 60)
-    t.write("Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("2) Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
     t.goto(150, 110)
     t.pendown()
@@ -116,7 +74,7 @@ def make_machine(t) -> None:
     t.goto(150, 110)
     t.penup()
     t.goto(60, 60)
-    t.write("Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("3) Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
     t.goto(-150, -20)
     t.pendown()
@@ -126,12 +84,13 @@ def make_machine(t) -> None:
     t.goto(-150, -20)
     t.penup()
     t.goto(-75, -70)
-    t.write("Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("1) Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
 
 
-
-if __name__ == "__main__":
-    # main()
+def main():
+    """
+    Main function to run vending machine.
+    """
 
     canvas = turtle.Screen()
     canvas.title("Vending Machine")
@@ -139,8 +98,9 @@ if __name__ == "__main__":
     turt.shape("turtle")
 
     make_machine(turt)
-    # canvas: Turtle = Turtle()
-    # canvas.setup(width=200, height=200, startx=0, starty=0)
+
+    money: int = randint(1, 10)
+    cart: list[str] = []
 
     answer = canvas.textinput("NAME", "What's your name?")
     turt.goto(0, 230)
@@ -155,6 +115,41 @@ if __name__ == "__main__":
     turt.penup()
     turt.goto(0,0)
 
-    # if turt.onclick(, 1, True) is True:
-    #     print("Woah")
+    # turt.onclick( 1, True)
+
+    while money > 0:
+        show_vending_options()
+        response = canvas.textinput("SELECTION", "What items would you like to view? (Or 'exit' to leave)")
+
+        if response.lower() == "exit":
+            pass
+
+        elif response == "1":
+            money = handle_selection(drinks, money, "Drinks", cart)
+
+        elif response == "2":
+            money = handle_selection(snacks, money, "Snacks", cart)
+
+        elif response == "3":
+            money = handle_selection(candies, money, "Candy", cart)
+
+        else:
+            print("Invalid option.")
+
+        print(f"You now have ${money} remaining.")
+
+    # Receipt feature to show purchased items
+    print("\nItems you purchased:")
+    if cart:
+        for item in cart:
+            print(f"- {item}")
+    else:
+        print("No items purchased.")
+
+    print("Thank you for visiting the vending machine!")
+
+
+if __name__ == "__main__":
+    main()
+
     done()
