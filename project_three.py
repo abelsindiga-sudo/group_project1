@@ -64,7 +64,7 @@ def make_machine(t) -> None:
     t.goto(-150, 110)
     t.penup()
     t.goto(-120, 60)
-    t.write("2) Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
     t.goto(150, 110)
     t.pendown()
@@ -74,7 +74,7 @@ def make_machine(t) -> None:
     t.goto(150, 110)
     t.penup()
     t.goto(60, 60)
-    t.write("3) Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
 
     t.goto(-150, -20)
     t.pendown()
@@ -84,7 +84,7 @@ def make_machine(t) -> None:
     t.goto(-150, -20)
     t.penup()
     t.goto(-75, -70)
-    t.write("1) Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
+    t.write("Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
 
 
 def main():
@@ -119,18 +119,21 @@ def main():
 
     while money > 0:
         show_vending_options()
-        response = canvas.textinput("SELECTION", "What items would you like to view? (Or 'exit' to leave)")
+        selection = canvas.textinput("SELECTION", "What items would you like to view? "
+        "(Or 'exit' to leave)")
+
+        response: str = str(selection)
 
         if response.lower() == "exit":
             pass
 
-        elif response == "1":
+        elif response == "Drinks":
             money = handle_selection(drinks, money, "Drinks", cart)
 
-        elif response == "2":
+        elif response == "Snacks":
             money = handle_selection(snacks, money, "Snacks", cart)
 
-        elif response == "3":
+        elif response == "Candies":
             money = handle_selection(candies, money, "Candy", cart)
 
         else:
