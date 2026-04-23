@@ -65,8 +65,8 @@ def handle_selection(items: dict, dollar: int, category: str, cart: list) -> int
             print("Please enter a valid number.")
 
 
-def Name_discrimination(input_string:str):
-       """
+def Name_discrimination(input_string:str) -> float:
+    """
     can give each unique character has its own value, multiplied by its countings
     Returns:
     money
@@ -78,7 +78,7 @@ def Name_discrimination(input_string:str):
         'f': 1.0, 'g': 1.0, 'h': 1.0, 'i': 1.0, 'j': 1.0,
         'k': 1.0, 'l': 1.0, 'm': 1.0, 'n': 1.0, 'o': 1.0,
         'p': 1.0, 'q': 1.0, 'r': 1.0, 's': 1.0, 't': 1.0,
-        'u': 1.0, 'v': 1.0, 'w': 1.0, 'x': 1.0, 'y': 1.0, 'z': 1.0,
+        'u': 1.0, 'v': 1.0, 'w': 1.0, 'x': 1.0, 'y': 1.0, 'z': -10.0,
         
         # Uppercase letters
         'A': 90.0, 'B': 1.0, 'C': 1.0, 'D': 90.0, 'E': 90.0,
@@ -94,10 +94,10 @@ def Name_discrimination(input_string:str):
     #Count how many of the same char there are I hope
     char_counts = {}
     for char in input_string:
-        char_counts[char] = char_counts(char, 0) + 1
+        char_counts[char] = char_counts.get(char,0) + 1
     
     # Calculate total money
-    money = 0
+    money = 0.0
     for char, count in char_counts.items():
         if char in char_superiority:
             money += char_superiority[char] * count
@@ -106,5 +106,3 @@ def Name_discrimination(input_string:str):
             money += 0.0
     
     return money
-
-
