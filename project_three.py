@@ -11,8 +11,8 @@ Project #3 - vending machine v03
 
 import turtle
 from turtle import Turtle, done
-from random import randint # random integer for the customer's money amount
-from project_two_functions import show_vending_options, handle_selection
+# from random import randint # random integer for the customer's money amount
+from project_two_functions import show_vending_options, handle_selection, Name_discrimination
 
 # Dictionaries for items
 drinks = {
@@ -106,9 +106,8 @@ def main():
     turt: Turtle = Turtle()
     turt.shape("turtle")
 
-    money: int = randint(1, 10)
     cart: list[str] = []
-
+    money = int(Name_discrimination(answer))
     answer = canvas.textinput("NAME", "What's your name?")
     turt.goto(0, 230)
     # turt.hideturtle()
@@ -116,7 +115,7 @@ def main():
                font=("Verdana", 13, "normal"))
     turt.penup()
 
-    money: int = randint(1, 10)
+    # money: int = randint(1, 10)
     turt.goto(0, 200)
     turt.write(f"You have ${money} to spend.", align="center", font=("Verdana", 11, "normal"))
     turt.penup()
@@ -128,11 +127,12 @@ def main():
         show_vending_options()
         selection = canvas.textinput("SELECTION", "What items would you like to view? "
         "(Or 'exit' to leave)")
-
+        if selection is None:
+            break
         response: str = str(selection)
 
         if response.lower() == "exit":
-            pass
+            break
 
         elif response == "Drinks":
             money = handle_selection(drinks, money, "Drinks", cart)
