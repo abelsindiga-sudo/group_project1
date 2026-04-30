@@ -8,101 +8,302 @@ Prof R
 Project #2 - vending machine v02
     Functions page for calling in the main file
 """
+import turtle
+from turtle import Turtle
+import time
 
-def show_vending_options() -> None:
+class Item:
     """
-    Displays main vending categories.
-        Drinks, Snacks, Candy
+        docstring
     """
-    print("\nYour options from the vending machine:")
-    print("Enter '1' for Drinks")
-    print("Enter '2' for Snacks")
-    print("Enter '3' for Candy")
-    print("Type 'exit' to leave")
+    def __init__(self, name, price) -> None:
+        self.name = name
+        self.price = price
 
-def handle_selection(items: dict, dollar: int, category: str, cart: list) -> int:
+    def __str__(self) -> str:
+        return self.name + ": " + str(self.price)
+
+    def __repr__(self) -> str:
+        return str(self)
+
+class VendingMachine:
     """
-    Handles item selection, validates input, and updates money.
-
-    Parameters
-    ----------
-        items: dict
-            dictionary of items available for purchase
-        dollar: int
-            current money user has to buy with
-        category: str
-            category name that the user wishes to purchase from
-        cart: list[str]
-            purchased items displayed in user's cart at the end
-
-    Returns
-    -------
-        dollar: int
-            Updated money for user to make purchases with ("dollar - price")
+        docstring
     """
-    print(f"\nHere are your {category} options:")
+    def __init__(self) -> None:
+        self.balance = 0
+        self.snacks: list[Item] = []
+        self.candies: list[Item] = []
+        self.drinks: list[Item] = []
 
-    for key, (name, price) in items.items():
-        print(f"{key}) {name} - ${price}")
+        self.total: list[Item] = [self.snacks, self.candies, self.drinks] # type: ignore
 
-    while True:
-        try:
-            choice = int(input("Choose an option: "))
+    # def make_machine(self) -> None:
+    #     """
+    #         This is the code that creates the vending machine boxes and graphic in Turtle.
+    #     """
+    #     t: Turtle = Turtle()
 
-            if choice in items:
-                name, price = items[choice]
+    #     canvas = turtle.Screen()
+    #     canvas.title("Vending Machine")
 
-                if dollar < price:
-                    print("Not enough money.")
-                    return dollar
+    #     t.hideturtle()
+    #     canvas.tracer(0)
 
-                print(f"Here's your {name}!")
-                cart.append(name)
-                return dollar - price
-            else:
-                print("Invalid choice. Choose 1-4.")
-        except ValueError:
-            print("Please enter a valid number.")
+    #     # Building the basic machine
+    #     t.penup()
+    #     t.goto(200, 300)
+    #     t.pendown()
+    #     t.goto(-200, 300)
+    #     t.goto(-200, -300)
+    #     t.goto(200, -300)
+    #     t.goto(200, 300)
+    #     t.penup()
 
+    #     t.goto(150, 220)
+    #     t.pendown()
+    #     t.goto(-150, 220)
+    #     t.penup()
 
-def Name_discrimination(input_string:str) -> float:
-    """
-    can give each unique character has its own value, multiplied by its countings
-    Returns:
-    money
-    """
-    # giving ech one a value that is true and factual.
-    char_superiority = {
-        # Lowercase letters
-        'a': 1.0, 'b': 1.0, 'c': 1.0, 'd': 1.0, 'e': 1.0,
-        'f': 1.0, 'g': 1.0, 'h': 1.0, 'i': 1.0, 'j': 1.0,
-        'k': 1.0, 'l': 1.0, 'm': 1.0, 'n': 1.0, 'o': 1.0,
-        'p': 1.0, 'q': 1.0, 'r': 1.0, 's': 1.0, 't': 1.0,
-        'u': 1.0, 'v': 1.0, 'w': 1.0, 'x': 1.0, 'y': 1.0, 'z': -10.0,
-        
-        # Uppercase letters
-        'A': 90.0, 'B': 1.0, 'C': 1.0, 'D': 90.0, 'E': 90.0,
-        'F': 1.0, 'G': 1.0, 'H': 1.0, 'I': 1.0, 'J': 1.0,
-        'K': 1.0, 'L': 1.0, 'M': 1.0, 'N': 1.0, 'O': 1.0,
-        'P': 1.0, 'Q': 1.0, 'R': 1.0, 'S': 1.0, 'T': 1.0,
-        'U': 1.0, 'V': 1.0, 'W': 1.0, 'X': 1.0, 'Y': 1.0, 'Z': 1.0,
-        
-        # Space 
-        ' ': 100.0,
-    } 
-    
-    #Count how many of the same char there are I hope
-    char_counts = {}
-    for char in input_string:
-        char_counts[char] = char_counts.get(char,0) + 1
-    
-    # Calculate total money
-    money = 0.0
-    for char, count in char_counts.items():
-        if char in char_superiority:
-            money += char_superiority[char] * count
+    #     # Snacks
+    #     t.goto(-150, 110)
+    #     t.pendown()
+    #     t.goto(-150, 10)
+    #     t.goto(-30, 10)
+    #     t.goto(-30, 110)
+    #     t.goto(-150, 110)
+    #     t.penup()
+    #     t.goto(-120, 60)
+    #     t.write("Snacks\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    #     # Candies
+    #     t.goto(150, 110)
+    #     t.pendown()
+    #     t.goto(150, 10)
+    #     t.goto(30, 10)
+    #     t.goto(30, 110)
+    #     t.goto(150, 110)
+    #     t.penup()
+    #     t.goto(60, 60)
+    #     t.write("Candies\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    #     # Drinks
+    #     t.goto(-150, -20)
+    #     t.pendown()
+    #     t.goto(-150, -100)
+    #     t.goto(150, -100)
+    #     t.goto(150, -20)
+    #     t.goto(-150, -20)
+    #     t.penup()
+    #     t.goto(-75, -70)
+    #     t.write("Drinks Selection", align="left", font=("Verdana", 11, "bold"))
+
+    #     # Back Button
+    #     t.goto(-150, -125)
+    #     t.pendown()
+    #     t.goto(-150, -175)
+    #     t.goto(150, -175)
+    #     t.goto(150, -125)
+    #     t.goto(-150, -125)
+    #     t.penup()
+    #     t.goto(-75, -150)
+    #     t.write("Back Button", align="left", font=("Verdana", 11, "bold"))
+    #     t.penup()
+
+    def add_item(self, name, price, category) -> None:
+        """
+            docstring
+        """
+        item = Item(name, price)
+        if category == "snacks":
+            self.snacks.append(item)
+
+        if category == "drinks":
+            self.drinks.append(item)
+
+        if category == "candies":
+            self.candies.append(item)
+
+    def purchase_item(self, index, pay):
+        """
+            docstring
+        """
+        item = self.total[index]
+        if item.price > pay:
+            print("You don't have enough money!")
         else:
-            #value for anything not set.
-            money += 0.0
-    
+            self.balance += item.price
+            change = pay - item.price
+            return item, change
+
+    def __str__(self) -> str:
+        """
+            docstring
+        """
+        info = "Vending Machine balance: " + str(self.balance) + "\n"
+        for item in self.total:
+            info += str(item) + "\n"
+
+        return info
+
+def make_machine() -> None:
+    """
+        This is the code that creates the vending machine boxes and graphic in Turtle.
+    """
+    t: Turtle = Turtle()
+
+    canvas = turtle.Screen()
+    canvas.title("Vending Machine")
+
+    t.hideturtle()
+    canvas.tracer(0)
+
+    # Building the basic machine
+    t.penup()
+    t.goto(200, 300)
+    t.pendown()
+    t.goto(-200, 300)
+    t.goto(-200, -300)
+    t.goto(200, -300)
+    t.goto(200, 300)
+    t.penup()
+
+    t.goto(150, 220)
+    t.pendown()
+    t.goto(-150, 220)
+    t.penup()
+
+    # Snacks
+    t.goto(-150, 110)
+    t.pendown()
+    t.goto(-150, 10)
+    t.goto(-30, 10)
+    t.goto(-30, 110)
+    t.goto(-150, 110)
+    t.penup()
+    t.goto(-120, 60)
+    t.write("Snacks\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    # Candies
+    t.goto(150, 110)
+    t.pendown()
+    t.goto(150, 10)
+    t.goto(30, 10)
+    t.goto(30, 110)
+    t.goto(150, 110)
+    t.penup()
+    t.goto(60, 60)
+    t.write("Candies\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    # Drinks
+    t.goto(-150, -20)
+    t.pendown()
+    t.goto(-150, -100)
+    t.goto(150, -100)
+    t.goto(150, -20)
+    t.goto(-150, -20)
+    t.penup()
+    t.goto(-75, -70)
+    t.write("Drinks Selection", align="left", font=("Verdana", 11, "bold"))
+
+    # Back Button
+    t.goto(-150, -125)
+    t.pendown()
+    t.goto(-150, -175)
+    t.goto(150, -175)
+    t.goto(150, -125)
+    t.goto(-150, -125)
+    t.penup()
+    t.goto(-75, -150)
+    t.write("Back Button", align="left", font=("Verdana", 11, "bold"))
+    t.penup()
+
+def draw_cart(t, cart):
+    """
+        ???
+    """
+    t.goto(-180, -200)
+    t.write("Cart:", font=("Verdana", 10, "bold"))
+
+    y = -220
+    for item in cart:
+        t.goto(-180, y)
+        t.write(f"- {item}", font=("Verdana", 9, "normal"))
+        y -= 20
+
+def redraw_screen(turt, screen, money):
+    """
+        bleh
+    """
+    cart: list[str] = []
+
+    answer = screen.textinput("NAME", "What's your name?")
+
+    turt.clear()
+    make_machine()
+
+    turt.penup()
+    turt.goto(0, 230)
+    turt.write(f"Hi, {answer}! Welcome to the Vending Machine!",
+               align="center", font=("Verdana", 13, "normal"))
+
+    turt.goto(0, 200)
+    turt.write(f"You have ${money} to spend.",
+               align="center", font=("Verdana", 11, "normal"))
+
+    draw_cart(turt, cart)
+
+    screen.update()
     return money
+
+def show_items_on_screen(t, items_dict, title):
+    """
+        ???
+    """
+    t.clear()
+    make_machine()
+
+    t.goto(0, 240)
+    t.write(f"{title} Menu", align="center", font=("Verdana", 14, "bold"))
+
+    y = 190
+    for key in items_dict:
+        name, price = items_dict[key]
+        t.goto(-120, y)
+        t.write(f"{key}. {name} - ${price}", font=("Verdana", 11, "normal"))
+        y -= 20
+
+    # for
+
+
+    t.goto(0, -200)
+    t.write("Enter item number in popup", align="center", font=("Verdana", 10, "italic"))
+
+
+def animate_button(t, canvas, x1, y1, x2, y2, label):
+    """
+        ???
+    """
+    if label == "Return":
+        t.clear()
+
+    t.penup()
+    t.goto(x1, y1)
+    t.pendown()
+    t.fillcolor("lavender")
+    t.begin_fill()
+    t.goto(x1, y2)
+    t.goto(x2, y2)
+    t.goto(x2, y1)
+    t.goto(x1, y1)
+    t.end_fill()
+    t.penup()
+
+    t.goto((x1 + x2)//2 - 35, (y1 + y2)//2 - 10)
+    t.write(label, font=("Verdana", 11, "bold"))
+
+    canvas.update()
+    time.sleep(0.15)
+
+    t.clear()
+    make_machine()

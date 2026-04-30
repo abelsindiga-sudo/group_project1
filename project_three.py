@@ -11,156 +11,134 @@ Project #3 - vending machine v03
 
 import turtle
 from turtle import Turtle, done
-# from random import randint # random integer for the customer's money amount
-from project_two_functions import show_vending_options, handle_selection, Name_discrimination
+from random import randint
+from project_two_functions import redraw_screen
+from project_two_functions import show_items_on_screen, animate_button
+from project_two_functions import VendingMachine
 
-# Dictionaries for items
-drinks = {
-    1: ("Diet Pepsi", 3),
-    2: ("Pepsi", 3),
-    3: ("Water", 3),
-    4: ("Gatorade", 3)
-}
 
-snacks = {
-    1: ("Doritos", 2),
-    2: ("Apples", 2),
-    3: ("Granola Bar", 2),
-    4: ("Trail Mix", 2)
-}
-
-candies = {
-    1: ("M&Ms", 1),
-    2: ("Hershey's", 1),
-    3: ("Snickers", 1),
-    4: ("Nerds", 1)
-}
-
-class VendingMachine:
+def handle_selection(items: dict, dollar: int, cart: list, selection: str) -> int:
     """
-        class docstring
+    Handles item selection, validates input, and updates money.
+
+    Parameters
+    ----------
+        items: dict
+            dictionary of items available for purchase
+        dollar: int
+            current money user has to buy with
+        category: str
+            category name that the user wishes to purchase from
+        cart: list[str]
+            purchased items displayed in user's cart at the end
+
+    Returns
+    -------
+        dollar: int
+            Updated money for user to make purchases with ("dollar - price")
     """
-    def __init__(self) -> None:
-        pass
-    def make_machine(self, t: Turtle) -> None:
-        """
-            This is the vending machine drawn in the turtle window
-        """
-        # box for outer vending machine
-        t.penup()
-        t.goto(200, 300)
-        t.pendown()
-        t.goto(-200, 300)
-        t.goto(-200, -300)
-        t.goto(200, -300)
-        t.goto(200, 300)
-        t.penup()
 
-        # line on top (title)
-        t.goto(150, 220)
-        t.pendown()
-        t.goto(-150, 220)
-        t.penup()
+    while True:
+        try:
 
-        # snacks box <-- make these classes
-        t.goto(-150, 110)
-        t.pendown()
-        t.goto(-150, 10)
-        t.goto(-30, 10)
-        t.goto(-30, 110)
-        t.goto(-150, 110)
-        t.penup()
-        t.goto(-120, 60)
-        t.write("Snacks\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+            if selection in items:
+                name, price = items[selection]
 
-        # candies box <-- make these classes
-        t.goto(150, 110)
-        t.pendown()
-        t.goto(150, 10)
-        t.goto(30, 10)
-        t.goto(30, 110)
-        t.goto(150, 110)
-        t.penup()
-        t.goto(60, 60)
-        t.write("Candies\nSelection", False, align="left", font=("Verdana", 11, "bold"))
+                if dollar < price:
+                    print("Not enough money.")
+                    return dollar
 
-        # drinks box <-- make these classes
-        t.goto(-150, -20)
-        t.pendown()
-        t.goto(-150, -120)
-        t.goto(150, -120)
-        t.goto(150, -20)
-        t.goto(-150, -20)
-        t.penup()
-        t.goto(-75, -70)
-        t.write("Drinks Selection", False, align="left", font=("Verdana", 11, "bold"))
+                print(f"Here's your {name}!")
+                cart.append(name)
+                return dollar - price
+            else:
+                print("Invalid choice. Choose 1-4.")
+        except ValueError:
+            print("Please enter a valid number.")
 
+# -------------------- MAIN --------------------
 
 def main():
     """
-    Main function to run vending machine.
+        This is where the main bulk of our code will go.
     """
-
-    canvas = turtle.Screen()
-    canvas.title("Vending Machine")
     turt: Turtle = Turtle()
-    turt.shape("turtle")
 
-    cart: list[str] = []
-    money = int(Name_discrimination(answer))
-    answer = canvas.textinput("NAME", "What's your name?")
-    turt.goto(0, 230)
-    # turt.hideturtle()
-    turt.write(f"Hi, {answer}! Welcome to the Vending Machine!", True, align="center",
-               font=("Verdana", 13, "normal"))
-    turt.penup()
+    money: int = randint(1, 10)
 
-    # money: int = randint(1, 10)
-    turt.goto(0, 200)
-    turt.write(f"You have ${money} to spend.", align="center", font=("Verdana", 11, "normal"))
-    turt.penup()
-    turt.goto(0,0)
+    screen = turtle.Screen()
 
-    # turt.onclick( 1, True)
+    redraw_screen(turt, screen, money)
 
-    while money > 0:
-        show_vending_options()
-        selection = canvas.textinput("SELECTION", "What items would you like to view? "
-        "(Or 'exit' to leave)")
-        if selection is None:
-            break
-        response: str = str(selection)
+    vm: VendingMachine = VendingMachine()
 
-        if response.lower() == "exit":
-            break
+    # Creating the stock of the machine.
+    vm.add_item("Diet Pepsi", 3, "drinks")
+    vm.add_item("Pepsi", 3, "drinks")
+    vm.add_item("Water", 3, "drinks")
+    vm.add_item("Gatorade", 3, "drinks")
 
-        elif response == "Drinks":
-            money = handle_selection(drinks, money, "Drinks", cart)
+    vm.add_item("Doritos", 2, "snacks")
+    vm.add_item("Apples", 2, "snacks")
+    vm.add_item("Granola Bar", 2, "snacks")
+    vm.add_item("Trail Mix", 2, "snacks")
 
-        elif response == "Snacks":
-            money = handle_selection(snacks, money, "Snacks", cart)
+    vm.add_item("M&Ms", 1, "candies")
+    vm.add_item("Hershey's", 1, "candies")
+    vm.add_item("Snickers", 1, "candies")
+    vm.add_item("Nerds", 1, "candies")
 
-        elif response == "Candies":
-            money = handle_selection(candies, money, "Candy", cart)
+    # CLICK SYSTEM (replaces while loop)
+    def handle_click(x, y):
+        """
+            docstring
+        """
+        if -150 < x < -30 and 10 < y < 110:
+            animate_button(turt, screen, -150, 10, -30, 110, "Snacks")
+            show_items_on_screen(turt, vm.snacks, "Snacks")
+            screen.update()
+            response = screen.textinput("SELECTION", "What would you like?")
+            money = handle_selection(vm.snacks, money, screen, response) # type: ignore
 
-        else:
-            print("Invalid option.")
+        elif 30 < x < 150 and 10 < y < 110:
+            animate_button(turt, screen, 30, 10, 150, 110, "Candies")
+            show_items_on_screen(turt, vm.candies, "Candies")
+            screen.update()
+            response = screen.textinput("SELECTION", "What would you like?")
+            money = handle_selection(vm.candies, money, screen, response) # type: ignore
 
-        print(f"You now have ${money} remaining.")
+        elif -150 < x < 150 and -120 < y < -20:
+            animate_button(turt, screen, -150, -100, 150, -20, "Drinks")
+            show_items_on_screen(turt, vm.drinks, "Drinks")
+            screen.update()
+            response = screen.textinput("SELECTION", "What would you like?")
+            money = handle_selection(vm.drinks, money, screen, response) # type: ignore
 
-    # Receipt feature to show purchased items
-    print("\nItems you purchased:")
-    if cart:
-        for item in cart:
-            print(f"- {item}")
-    else:
-        print("No items purchased.")
+        elif -150 < x < 150 and -175 < y < -125:
+            animate_button(turt, screen, -150, -125, 150, -175, "Return")
 
-    print("Thank you for visiting the vending machine!")
+        redraw_screen(turt, screen, money)
+
+        if money <= 0:
+            turt.clear()
+            turt.goto(0, 100)
+            turt.write("Thank you!", align="center", font=("Verdana", 14, "bold"))
+
+            turt.goto(0, 50)
+            turt.write("Items Purchased:", align="center", font=("Verdana", 12, "bold"))
+
+            y_pos = 20
+            for item in cart:
+                turt.goto(0, y_pos)
+                turt.write(item, align="center", font=("Verdana", 10, "normal"))
+                y_pos -= 20
+
+            screen.update()
+
+    screen.onclick(handle_click)
+
+    done()
 
 
 if __name__ == "__main__":
-    vending_machine: VendingMachine = VendingMachine()
     main()
-
-    done()
