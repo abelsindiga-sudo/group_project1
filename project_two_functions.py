@@ -21,7 +21,7 @@ class Item:
         self.price = price
 
     def __str__(self) -> str:
-        return self.name + ": " + str(self.price)
+        return self.name + ": $" + str(self.price)
 
     def __repr__(self) -> str:
         return str(self)
@@ -37,78 +37,6 @@ class VendingMachine:
         self.drinks: list[Item] = []
 
         self.total: list[Item] = [self.snacks, self.candies, self.drinks] # type: ignore
-
-    # def make_machine(self) -> None:
-    #     """
-    #         This is the code that creates the vending machine boxes and graphic in Turtle.
-    #     """
-    #     t: Turtle = Turtle()
-
-    #     canvas = turtle.Screen()
-    #     canvas.title("Vending Machine")
-
-    #     t.hideturtle()
-    #     canvas.tracer(0)
-
-    #     # Building the basic machine
-    #     t.penup()
-    #     t.goto(200, 300)
-    #     t.pendown()
-    #     t.goto(-200, 300)
-    #     t.goto(-200, -300)
-    #     t.goto(200, -300)
-    #     t.goto(200, 300)
-    #     t.penup()
-
-    #     t.goto(150, 220)
-    #     t.pendown()
-    #     t.goto(-150, 220)
-    #     t.penup()
-
-    #     # Snacks
-    #     t.goto(-150, 110)
-    #     t.pendown()
-    #     t.goto(-150, 10)
-    #     t.goto(-30, 10)
-    #     t.goto(-30, 110)
-    #     t.goto(-150, 110)
-    #     t.penup()
-    #     t.goto(-120, 60)
-    #     t.write("Snacks\nSelection", align="left", font=("Verdana", 11, "bold"))
-
-    #     # Candies
-    #     t.goto(150, 110)
-    #     t.pendown()
-    #     t.goto(150, 10)
-    #     t.goto(30, 10)
-    #     t.goto(30, 110)
-    #     t.goto(150, 110)
-    #     t.penup()
-    #     t.goto(60, 60)
-    #     t.write("Candies\nSelection", align="left", font=("Verdana", 11, "bold"))
-
-    #     # Drinks
-    #     t.goto(-150, -20)
-    #     t.pendown()
-    #     t.goto(-150, -100)
-    #     t.goto(150, -100)
-    #     t.goto(150, -20)
-    #     t.goto(-150, -20)
-    #     t.penup()
-    #     t.goto(-75, -70)
-    #     t.write("Drinks Selection", align="left", font=("Verdana", 11, "bold"))
-
-    #     # Back Button
-    #     t.goto(-150, -125)
-    #     t.pendown()
-    #     t.goto(-150, -175)
-    #     t.goto(150, -175)
-    #     t.goto(150, -125)
-    #     t.goto(-150, -125)
-    #     t.penup()
-    #     t.goto(-75, -150)
-    #     t.write("Back Button", align="left", font=("Verdana", 11, "bold"))
-    #     t.penup()
 
     def add_item(self, name, price, category) -> None:
         """
@@ -146,7 +74,7 @@ class VendingMachine:
 
         return info
 
-def make_machine() -> None:
+def make_machine(vm) -> None:
     """
         This is the code that creates the vending machine boxes and graphic in Turtle.
     """
@@ -154,6 +82,17 @@ def make_machine() -> None:
 
     canvas = turtle.Screen()
     canvas.title("Vending Machine")
+
+    answer = canvas.textinput("NAME", "What's your name?")
+
+    t.penup()
+    t.goto(0, 230)
+    t.write(f"Hi, {answer}! Welcome to the Vending Machine!",
+               align="center", font=("Verdana", 13, "normal"))
+
+    t.goto(0, 200)
+    t.write("You have unlimited money to spend!",
+               align="center", font=("Verdana", 11, "normal"))
 
     t.hideturtle()
     canvas.tracer(0)
@@ -181,8 +120,11 @@ def make_machine() -> None:
     t.goto(-30, 110)
     t.goto(-150, 110)
     t.penup()
-    t.goto(-120, 60)
-    t.write("Snacks\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    t.goto(-130, 85)
+    for snack in vm.snacks:
+        t.write(snack, font=("Verdana", 11, "normal"))
+        t.goto(-130, t.ycor() - 15)
 
     # Candies
     t.goto(150, 110)
@@ -192,8 +134,11 @@ def make_machine() -> None:
     t.goto(30, 110)
     t.goto(150, 110)
     t.penup()
-    t.goto(60, 60)
-    t.write("Candies\nSelection", align="left", font=("Verdana", 11, "bold"))
+
+    t.goto(60, 85)
+    for candy in vm.candies:
+        t.write(candy, font=("Verdana", 11, "normal"))
+        t.goto(60, t.ycor() - 15)
 
     # Drinks
     t.goto(-150, -20)
@@ -203,84 +148,18 @@ def make_machine() -> None:
     t.goto(150, -20)
     t.goto(-150, -20)
     t.penup()
-    t.goto(-75, -70)
-    t.write("Drinks Selection", align="left", font=("Verdana", 11, "bold"))
 
-    # Back Button
-    t.goto(-150, -125)
-    t.pendown()
-    t.goto(-150, -175)
-    t.goto(150, -175)
-    t.goto(150, -125)
-    t.goto(-150, -125)
-    t.penup()
-    t.goto(-75, -150)
-    t.write("Back Button", align="left", font=("Verdana", 11, "bold"))
-    t.penup()
-
-def draw_cart(t, cart):
-    """
-        ???
-    """
-    t.goto(-180, -200)
-    t.write("Cart:", font=("Verdana", 10, "bold"))
-
-    y = -220
-    for item in cart:
-        t.goto(-180, y)
-        t.write(f"- {item}", font=("Verdana", 9, "normal"))
-        y -= 20
-
-def redraw_screen(turt, screen, money):
-    """
-        bleh
-    """
-    cart: list[str] = []
-
-    answer = screen.textinput("NAME", "What's your name?")
-
-    turt.clear()
-    make_machine()
-
-    turt.penup()
-    turt.goto(0, 230)
-    turt.write(f"Hi, {answer}! Welcome to the Vending Machine!",
-               align="center", font=("Verdana", 13, "normal"))
-
-    turt.goto(0, 200)
-    turt.write(f"You have ${money} to spend.",
-               align="center", font=("Verdana", 11, "normal"))
-
-    draw_cart(turt, cart)
-
-    screen.update()
-    return money
-
-def show_items_on_screen(t, items_dict, title):
-    """
-        ???
-    """
-    t.clear()
-    make_machine()
-
-    t.goto(0, 240)
-    t.write(f"{title} Menu", align="center", font=("Verdana", 14, "bold"))
-
-    y = 190
-    for key in items_dict:
-        name, price = items_dict[key]
-        t.goto(-120, y)
-        t.write(f"{key}. {name} - ${price}", font=("Verdana", 11, "normal"))
-        y -= 20
-
-    # for
-
+    t.goto(0, -45)
+    for drink in vm.drinks:
+        t.write(drink, font=("Verdana", 11, "normal"))
+        t.goto(0, t.ycor() - 15)
 
     t.goto(0, -200)
-    t.write("Enter item number in popup", align="center", font=("Verdana", 10, "italic"))
+    t.write("Click which category would you like to choose?", align="center",
+            font=("Verdana", 10, "italic"))
 
 
-def animate_button(t, canvas, x1, y1, x2, y2, label):
+def animate_button(t, canvas, x1, y1, x2, y2, label, vm):
     """
         ???
     """
@@ -306,4 +185,4 @@ def animate_button(t, canvas, x1, y1, x2, y2, label):
     time.sleep(0.15)
 
     t.clear()
-    make_machine()
+    make_machine(vm)
