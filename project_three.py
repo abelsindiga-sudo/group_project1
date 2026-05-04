@@ -13,11 +13,24 @@ import turtle
 from turtle import Turtle, done
 from project_two_functions import make_machine
 from project_two_functions import animate_button
-from project_two_functions import VendingMachine
+from project_two_functions import Item, VendingMachine
 
 def handle_click(x, y, screen, turt, vm, cart):
     """
-        docstring
+        Once the screen is clicked, this will handle the selection to add to cart
+
+        Parameters
+        ----------
+        x, y: int
+            coordinates for where screen click is from
+        screen: Screen
+            the screen/window
+        turt: Turtle
+            the turtle on screen
+        vm: VendingMachine
+            the general vending machine
+        cart: list
+            where items are added once purchased
     """
     if -150 < x < -30 and 10 < y < 110:
         animate_button(turt, screen, -150, 10, -30, 110, "Snacks", vm)
@@ -53,8 +66,6 @@ def handle_click(x, y, screen, turt, vm, cart):
 
     screen.update()
 
-# -------------------- MAIN --------------------
-
 def main():
     """
         This is where the main bulk of our code will go.
@@ -68,11 +79,20 @@ def main():
     vm: VendingMachine = VendingMachine()
 
     # Creating the stock of the machine.
-    drinks: list[str] = ["Diet Pepsi", "Pepsi", "Water", "Gatorade"]
-    vm.add_item(drinks[0], 3, "drinks")
-    vm.add_item(drinks[1], 3, "drinks")
-    vm.add_item(drinks[2], 3, "drinks")
-    vm.add_item(drinks[3], 3, "drinks")
+    diet: Item = Item("Diet Pepsi", 3)
+    pepsi: Item = Item("Pepsi", 3)
+    water: Item = Item("Water", 3)
+    gator: Item = Item("Gatorade", 3)
+
+    diet.__str__()
+    pepsi.__str__()
+    water.__str__()
+    gator.__str__()
+
+    vm.add_item("Diet Pepsi", 3, "drinks")
+    vm.add_item("Pepsi", 3, "drinks")
+    vm.add_item("Water", 3, "drinks")
+    vm.add_item("Gatorade", 3, "drinks")
 
     vm.add_item("Doritos", 2, "snacks")
     vm.add_item("Apples", 2, "snacks")

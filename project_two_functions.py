@@ -14,33 +14,54 @@ import time
 
 class Item:
     """
-        docstring
+        A representation of an item in the vending machine.
     """
     def __init__(self, name, price) -> None:
+        """
+            The constructor for the items
+        """
         self.name = name
         self.price = price
 
     def __str__(self) -> str:
         return self.name + ": $" + str(self.price)
 
-    def __repr__(self) -> str:
-        return str(self)
-
 class VendingMachine:
     """
-        docstring
+        A representation of a vending machine.
     """
     def __init__(self) -> None:
+        """
+            The constructor for the vending machine.
+        """
         self.balance = 0
         self.snacks: list[Item] = []
         self.candies: list[Item] = []
         self.drinks: list[Item] = []
 
-        self.total: list[Item] = [self.snacks, self.candies, self.drinks] # type: ignore
-
-    def add_item(self, name, price, category) -> None:
+    def __add__(self, pay) -> list:
         """
-            docstring
+            Will create a list of all of the items in the vending machine, not in categories.
+        """
+        snacks = self.snacks
+        candies = self.candies
+        drinks = self.drinks
+
+        total: list[Item] = [snacks, candies, drinks] # type: ignore
+        return total
+
+    def add_item(self, name: str, price: int, category: str) -> None:
+        """
+            Function works to add items into the vending machine.
+
+            Parameters
+            ----------
+            name: str 
+                the name of the item
+            price: int
+                the price of the item
+            category: str
+                the category the item falls into (drinks, snacks, or candies)
         """
         item = Item(name, price)
         if category == "snacks":
@@ -52,11 +73,20 @@ class VendingMachine:
         if category == "candies":
             self.candies.append(item)
 
-    def purchase_item(self, index, pay):
+    def purchase_item(self, index, pay, total):
         """
-            docstring
+            Function works to buy items from the vending machine.
+
+            Parameters
+            ----------
+            index: str 
+                the name of the item
+            pay: int
+                the amount of money the user has
+            total: list[Item]
+                the total stock as given by the earlier function __add__()
         """
-        item = self.total[index]
+        item = total[index]
         if item.price > pay:
             print("You don't have enough money!")
         else:
@@ -66,12 +96,9 @@ class VendingMachine:
 
     def __str__(self) -> str:
         """
-            docstring
+            Provides the amount of money left to buy things as a string.
         """
         info = "Vending Machine balance: " + str(self.balance) + "\n"
-        for item in self.total:
-            info += str(item) + "\n"
-
         return info
 
 def make_machine(vm) -> None:
@@ -96,6 +123,8 @@ def make_machine(vm) -> None:
 
     t.hideturtle()
     canvas.tracer(0)
+
+    # ---------- ALL BELOW IS MAKING TURTLE MACHINE -----------
 
     # Building the basic machine
     t.penup()
@@ -161,7 +190,20 @@ def make_machine(vm) -> None:
 
 def animate_button(t, canvas, x1, y1, x2, y2, label, vm):
     """
-        ???
+        Makes the clicking on the screen work to produce an output through turtle
+
+        Parameters
+        ----------
+        t: Turtle
+            the turtle that is on screen
+        canvas: Screen
+            the screen/window
+        x1, y1, x2, y2: int
+            the coordinates for the boxes for where the click on screen will come from.
+        label: str
+            what heading will appear when the screen is clicked
+        vm: VendingMachine
+            the general vending machine as a whole
     """
     if label == "Return":
         t.clear()
